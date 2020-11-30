@@ -1,0 +1,7 @@
+{
+  "name": "monitoramento-plantacao",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
