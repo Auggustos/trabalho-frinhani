@@ -1,17 +1,29 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 3
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+    <ion-header collapse="condense">
+        <ion-toolbar>
+            <ion-title size="large">Home </ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-card-header>
+    </ion-card-header>
+    <ion-card-content>
+        <ion-row>
+            <ion-col>
+                <ion-card class="card-umi-solo">
+                    <ion-card-header>
+                        <!--<ion-card-subtitle>Card Subtitle</ion-card-subtitle>-->
+                        <ion-card-title>
+                            <div class="valor-card-title">Umidade do Solo</div>
+                        </ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <div class="valor-card">{{valorUmidade}}%
+                            <ion-icon name="water-outline" class="icon"></ion-icon>
+                        </div>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+        <canvas baseChart [datasets]="chartData" [chartType]="chartType" [labels]="chartLabels"></canvas>
+    </ion-card-content>
 </ion-content>

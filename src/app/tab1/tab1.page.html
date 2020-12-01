@@ -13,35 +13,16 @@
                     <ion-card-header>
                         <!--<ion-card-subtitle>Card Subtitle</ion-card-subtitle>-->
                         <ion-card-title>Temperatura
+                        </ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <div class="valor-card">{{valorTemperatura}}ºC
                             <ion-icon name="thermometer-outline" class="icon"></ion-icon>
-                        </ion-card-title>
-                    </ion-card-header>
-
-                    <ion-card-content>
-                        <div class="valor-card">{{valorTemperatura}}ºC</div>
+                        </div>
                     </ion-card-content>
-                </ion-card>
-            </ion-col>
-            <ion-col>
-                <ion-card class="card-umi">
-                    <ion-card-header>
-                        <!--<ion-card-subtitle>Card Subtitle</ion-card-subtitle>-->
-                        <ion-card-title>Umidade
-                            <ion-icon name="water-outline" class="icon"></ion-icon>
-                        </ion-card-title>
-                    </ion-card-header>
-
-                    <ion-card-content>
-                        <div class="valor-card">{{valorUmidade}}%</div>
-                    </ion-card-content>
-
                 </ion-card>
             </ion-col>
         </ion-row>
-
         <canvas baseChart [datasets]="chartData" [chartType]="chartType" [labels]="chartLabels"></canvas>
-        <canvas baseChart [datasets]="chartData1" [chartType]="chartType1" [labels]="chartLabels1"></canvas>
-
-
     </ion-card-content>
 </ion-content>

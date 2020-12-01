@@ -1,14 +1,28 @@
-.input-senha {
-    width: 10%;
-    display: inline-block;
-    text-align: left;
-    padding: 0vw 0vw 0vw 0vw;
-    min-width: 80vw;
+.card-temp {
+    background-color: #9ff77f;
 }
 
-.ver-senha {
-    display: inline-block;
+.valor-card {
+    font-size: 5vh;
+}
+
+.card-umi-ar {
+    background-color: rgb(138, 229, 245);
+}
+
+.card-pai {
+    height: 97%;
+}
+
+ion-card-title {
+    font-size: large;
     text-align: center;
-    float: right;
-    padding: 0vw 0vw 0vw 0vw;
+}
+
+.icon {
+    height: 25px;
+}
+
+ion-card-content {
+    text-align: center;
 }
