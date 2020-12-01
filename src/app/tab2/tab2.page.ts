@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { ChartType } from 'chart.js';
 import { ChartDataSets } from 'chart.js';
 import { Label } from 'ng2-charts';
-import {HttpClient }from '@angular/common/http';
 import {io} from 'socket.io-client';
+import { HTTP } from '@ionic-native/http/ngx';
 
 @Component({
   selector: 'app-tab2',
@@ -17,9 +17,9 @@ export class Tab2Page {
 
   socket : any;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private http: HTTP) {
 
-      this.socket = io('http://localhost:3000/')
+      this.socket = io('http://192.168.0.110:3000/')
       this.loadData();
     
     
@@ -36,7 +36,7 @@ export class Tab2Page {
   }
 
   loadData(){
-    const request: string = 'http://127.0.0.1:3000/get/average/week/temperature'
+    const request: string = 'http://192.168.0.110:3000/get/average/week/temperature'
     
     //call first time 
     this.callApi()
@@ -50,18 +50,35 @@ export class Tab2Page {
   }
 
   callApi(){
-    const request: string = 'http://127.0.0.1:3000/get/average/week/temperature'
-
-    this.httpClient.get(request).subscribe(res =>{
-      console.log(res)
-
-      const data:any = (res as any);
-
+    const url: string = 'http://192.168.0.110:3000/get/average/week/temperature'
+ 
+    this.http.setServerTrustMode('nocheck')
+ 
+    this.http.setHeader('*', 'Access-Control-Allow-Origin', '*');
+    this.http.setHeader('*', 'Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT');
+    this.http.setHeader('*', 'Accept', 'application/json');
+    this.http.setHeader('*', 'content-type', 'application/json');
+    this.http.setDataSerializer('json');
+ 
+    this.http.get(url, {}, {}).then(res => {
+ 
+      let body:any = JSON.stringify(res as any)
+      body = JSON.parse(body)
+      let data = JSON.parse(body.data)
+ 
       this.chartLabels = [...data.label];
+ 
       const averageUmidity = data.averages.map((item) => {
         return item.umidity
       })
     this.chartData[0].data = [...averageUmidity]; 
-    })
+    }).catch(error => {
+ 
+      console.log(error)
+      console.log(error.status);
+      console.log(error.error); // error message as string
+      console.log(error.headers);
+ 
+    });
   }
 }
