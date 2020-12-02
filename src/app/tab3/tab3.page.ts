@@ -24,18 +24,19 @@ export class Tab3Page {
   }
   valorUmidade = 0; // valores que vão ser recebidos do serviço
   valorTemperatura = 0;
+  valorSoilMisture = 0;
 
   ngOnInit() {
     this.socket.on('sensorData', (message) => {
       this.valorTemperatura = message.temperature
       this.valorUmidade = message.umidity
+      this.valorSoilMisture = message.soilMisture
     })
     this.socket.emit('set-name', 'haha');
   }
 
   loadData() {
-    const request: string = 'http://192.168.0.110:3000/get/average/week/temperature'
-    //const request: string = 'http://api.marketstack.com/v1/eod?access_key=5b8a5c0833a40aaa9d468e0f6ac97a19&symbols=AAPL&date_from=2020-05-05&date_to=2020-09-09'
+    const request: string = 'http://192.168.0.110/get/average/week/temperature'
 
     //call first time 
     this.callApi()
@@ -67,16 +68,15 @@ export class Tab3Page {
  
       this.chartLabels = [...data.label];
  
-      const averageUmidity = data.averages.map((item) => {
-        return item.umidity
+      const averageSoilMisture = data.averages.map((item) => {
+        return item.soilmoisture
       })
-    this.chartData[0].data = [...averageUmidity]; 
+    this.chartData[0].data = [...averageSoilMisture]; 
     }).catch(error => {
- 
-      console.log(error)
+/*       console.log(error)
       console.log(error.status);
       console.log(error.error); // error message as string
-      console.log(error.headers);
+      console.log(error.headers); */
  
     });
   }

@@ -26,11 +26,13 @@ export class Tab1Page {
   }
   valorUmidade = 0; // valores que vão ser recebidos do serviço
   valorTemperatura = 0;
+  valorSoilMisture = 0;
 
   ngOnInit(){
     this.socket.on('sensorData', (message) => {
       this.valorTemperatura = message.temperature
       this.valorUmidade = message.umidity
+      this.valorSoilMisture = message.soilMisture
     })
     this.socket.emit('set-name','haha');
   }

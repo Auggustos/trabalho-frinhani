@@ -26,17 +26,19 @@ export class Tab2Page {
   }
   valorUmidade = 0; // valores que vão ser recebidos do serviço
   valorTemperatura = 0;
+  valorSoilMisture = 0;
 
   ngOnInit(){
     this.socket.on('sensorData', (message) => {
       this.valorTemperatura = message.temperature
       this.valorUmidade = message.umidity
+      this.valorSoilMisture = message.soilMisture
     })
     this.socket.emit('set-name','haha');
   }
 
   loadData(){
-    const request: string = 'http://192.168.0.110:3000/get/average/week/temperature'
+    const request: string = 'http://192.168.0.110/get/average/week/temperature'
     
     //call first time 
     this.callApi()
@@ -61,7 +63,7 @@ export class Tab2Page {
     this.http.setDataSerializer('json');
  
     this.http.get(url, {}, {}).then(res => {
- 
+   
       let body:any = JSON.stringify(res as any)
       body = JSON.parse(body)
       let data = JSON.parse(body.data)
