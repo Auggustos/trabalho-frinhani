@@ -4,6 +4,7 @@ import { ChartDataSets } from 'chart.js';
 import { Label } from 'ng2-charts';
 import { HTTP } from '@ionic-native/http/ngx';
 import { io } from 'socket.io-client';
+import { SERVER_URL } from 'src/environments/environment';
 
 @Component({
   selector: 'app-tab3',
@@ -19,7 +20,7 @@ export class Tab3Page {
 
   constructor(private http: HTTP) {
 
-    this.socket = io('http://192.168.0.110:3000/')
+    this.socket = io(`${SERVER_URL}:3000/`)
     this.loadData();
   }
   valorUmidade = 0; // valores que vão ser recebidos do serviço
@@ -36,7 +37,7 @@ export class Tab3Page {
   }
 
   loadData() {
-    const request: string = 'http://192.168.0.110/get/average/week/temperature'
+    const request: string = `${SERVER_URL}/get/average/week/temperature`;
 
     //call first time 
     this.callApi()
@@ -50,7 +51,7 @@ export class Tab3Page {
   }
 
   callApi(){
-    const url: string = 'http://192.168.0.110:3000/get/average/week/temperature'
+    const url: string = `${SERVER_URL}:3000/get/average/week/temperature`
  
     this.http.setServerTrustMode('nocheck')
  

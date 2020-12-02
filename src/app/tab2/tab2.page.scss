@@ -4,15 +4,23 @@
 
 .valor-card {
     font-size: 5vh;
-    color: black;
+    color: white;
 }
 
 .valor-card-title {
-    color: black;
+    color: white;
 }
 
 .card-umi-ar {
-    background-color: rgb(138, 229, 245);
+    background-color:#4854e0;
+}
+
+.main-card{
+    margin-top: 30%;
+    background-color: white ;
+    width: 98%;
+    margin-left: 1%;
+    border-radius: 10px;
 }
 
 .card-pai {
