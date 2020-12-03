@@ -30,6 +30,9 @@ ion-card-title {
     width: 98%;
     margin-left: 1%;
     border-radius: 10px;
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+-moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
 }
 
 .icon {
@@ -37,5 +40,11 @@ ion-card-title {
 }
 
 ion-card-content {
+    text-align: center;
+}
+
+ion-toolbar{
+    --background: #d7d8da !important;
+    --color:#3880ff !important;
     text-align: center;
 }
