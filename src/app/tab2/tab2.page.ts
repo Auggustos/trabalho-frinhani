@@ -3,7 +3,7 @@ import { ChartType } from 'chart.js';
 import { ChartDataSets } from 'chart.js';
 import { Label } from 'ng2-charts';
 import {io} from 'socket.io-client';
-import { HTTP } from '@ionic-native/http/ngx';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SERVER_URL } from 'src/environments/environment';
 
 @Component({
@@ -17,10 +17,11 @@ export class Tab2Page {
   public chartLabels: Label[]
 
   socket : any;
+  array: any;
 
-  constructor(private http: HTTP) {
+  constructor(private http: HttpClient) {
 
-      this.socket = io(`${SERVER_URL}:3000/`)
+      this.socket = io(`${SERVER_URL}/`)
       this.loadData();
     
     
@@ -34,6 +35,7 @@ export class Tab2Page {
       this.valorTemperatura = message.temperature
       this.valorUmidade = message.umidity
       this.valorSoilMisture = message.soilMisture
+      this.loadData();
     })
     this.socket.emit('set-name','haha');
   }
@@ -53,29 +55,17 @@ export class Tab2Page {
   }
 
   callApi(){
-    const url: string = `${SERVER_URL}:3000/get/average/week/temperature`;
+    const url: string = `${SERVER_URL}/get/average/week/temperature`;
  
-    this.http.setServerTrustMode('nocheck')
+    this.http.get(url).subscribe((res:any) => {
+      let label = '';
+      this.chartLabels = [...label];
  
-    this.http.setHeader('*', 'Access-Control-Allow-Origin', '*');
-    this.http.setHeader('*', 'Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT');
-    this.http.setHeader('*', 'Accept', 'application/json');
-    this.http.setHeader('*', 'content-type', 'application/json');
-    this.http.setDataSerializer('json');
- 
-    this.http.get(url, {}, {}).then(res => {
-   
-      let body:any = JSON.stringify(res as any)
-      body = JSON.parse(body)
-      let data = JSON.parse(body.data)
- 
-      this.chartLabels = [...data.label];
- 
-      const averageUmidity = data.averages.map((item) => {
+      const averageUmidity = res.averages.map((item) => {
         return item.umidity
       })
     this.chartData[0].data = [...averageUmidity]; 
-    }).catch(error => {
+    },error => {
  
       console.log(error)
       console.log(error.status);

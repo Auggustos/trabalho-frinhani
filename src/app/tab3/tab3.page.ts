@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ChartType } from 'chart.js';
 import { ChartDataSets } from 'chart.js';
 import { Label } from 'ng2-charts';
-import { HTTP } from '@ionic-native/http/ngx';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { io } from 'socket.io-client';
 import { SERVER_URL } from 'src/environments/environment';
 
@@ -18,9 +18,9 @@ export class Tab3Page {
 
   socket: any;
 
-  constructor(private http: HTTP) {
+  constructor(private http: HttpClient) {
 
-    this.socket = io(`${SERVER_URL}:3000/`)
+    this.socket = io(`${SERVER_URL}/`)
     this.loadData();
   }
   valorUmidade = 0; // valores que vão ser recebidos do serviço
@@ -32,6 +32,7 @@ export class Tab3Page {
       this.valorTemperatura = message.temperature
       this.valorUmidade = message.umidity
       this.valorSoilMisture = message.soilMisture
+      this.loadData();
     })
     this.socket.emit('set-name', 'haha');
   }
@@ -51,33 +52,23 @@ export class Tab3Page {
   }
 
   callApi(){
-    const url: string = `${SERVER_URL}:3000/get/average/week/temperature`
+    const url: string = `${SERVER_URL}/get/average/week/temperature`
  
-    this.http.setServerTrustMode('nocheck')
+    this.http.get(url).subscribe((res:any) => {
+      console.log(res)
  
-    this.http.setHeader('*', 'Access-Control-Allow-Origin', '*');
-    this.http.setHeader('*', 'Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT');
-    this.http.setHeader('*', 'Accept', 'application/json');
-    this.http.setHeader('*', 'content-type', 'application/json');
-    this.http.setDataSerializer('json');
+      let label ='';
+      this.chartLabels = [...label];
  
-    this.http.get(url, {}, {}).then(res => {
- 
-      let body:any = JSON.stringify(res as any)
-      body = JSON.parse(body)
-      let data = JSON.parse(body.data)
- 
-      this.chartLabels = [...data.label];
- 
-      const averageSoilMisture = data.averages.map((item) => {
+      const averageSoilMisture = res.averages.map((item) => {
         return item.soilmoisture
       })
     this.chartData[0].data = [...averageSoilMisture]; 
-    }).catch(error => {
-/*       console.log(error)
+    }, error => {
+      console.log(error)
       console.log(error.status);
       console.log(error.error); // error message as string
-      console.log(error.headers); */
+      console.log(error.headers); 
  
     });
   }
